@@ -1,0 +1,10 @@
+/*
+    Custom CSS
+*/
+
+li.sidebar-item { cursor: pointer !important; }
+
+a.disabled {
+    pointer-events: none;
+    cursor: default;
+}
