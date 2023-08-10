@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\HttpRequestController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,4 +33,8 @@ Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
 
 Route::group(['prefix' => 'panel', 'as' => 'panel.', 'middleware' => ['auth']], function () {
     Route::get('dashboard', [DashboardController::class, 'dashboardPage'])->name('dashboard-page');
+
+    Route::group(['prefix' => 'http-request', 'as' => 'http-request.'], function () {
+        Route::get('/', [HttpRequestController::class, 'HttpRequestPage'])->name('index');
+    });
 });
