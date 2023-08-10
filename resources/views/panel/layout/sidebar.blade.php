@@ -11,7 +11,7 @@
 
                 <li class="list-divider"></li>
 
-                <li class="nav-small-cap"><span class="hide-menu">Features</span></li>
+                <li class="nav-small-cap"><span class="hide-menu">Browser Analytics</span></li>
 
                 <li class="sidebar-item {{ request()->routeIs('panel.http-request.*') ? 'selected' : '' }}"> <a class="sidebar-link" href="{{ route('panel.http-request.index') }}"
                         aria-expanded="false"><i class="fas fa-chart-bar"></i><span
@@ -19,9 +19,13 @@
                         </span></a>
                 </li>
 
+                <li class="list-divider"></li>
+
+                <li class="nav-small-cap"><span class="hide-menu">Connect Github</span></li>
+
                 <li class="sidebar-item"> <a class="sidebar-link" href=""
                     aria-expanded="false"><i class="fab fa-github"></i><span
-                        class="hide-menu">Connect Github
+                        class="hide-menu">Github Repository
                     </span></a>
                 </li>
 
