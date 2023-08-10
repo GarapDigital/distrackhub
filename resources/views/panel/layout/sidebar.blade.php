@@ -23,7 +23,7 @@
 
                 <li class="nav-small-cap"><span class="hide-menu">Connect Github</span></li>
 
-                <li class="sidebar-item"> <a class="sidebar-link" href=""
+                <li class="sidebar-item {{ request()->routeIs('panel.github.*') ? 'selected' : '' }}"> <a class="sidebar-link" href="{{ route('panel.github.index') }}"
                     aria-expanded="false"><i class="fab fa-github"></i><span
                         class="hide-menu">Github Repository
                     </span></a>
