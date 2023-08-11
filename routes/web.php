@@ -50,3 +50,4 @@ Route::group(['prefix' => 'panel', 'as' => 'panel.', 'middleware' => ['auth']], 
         Route::delete('/{author_name}/{repo_name}/delete', [GithubController::class, 'deleteGithubRepository'])->name('delete');
     });
 });
+

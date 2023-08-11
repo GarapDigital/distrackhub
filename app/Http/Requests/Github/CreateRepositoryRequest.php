@@ -25,7 +25,7 @@ class CreateRepositoryRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:60'],
-            'description' => ['required', 'string', 'max:100'],
+            'description' => ['required', 'string', 'max:200'],
             'private' => ['required']
         ];
     }

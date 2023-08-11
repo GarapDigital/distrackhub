@@ -22,7 +22,7 @@
                     </ul>
                 </div>
                 @endif
-                <form action="{{ route('panel.github.update', $repository['name']) }}" method="POST">
+                <form action="{{ route('panel.github.update', ['author_name' => Github::getRepositoryAuthor($repository['full_name']), 'repo_name' => $repository['name']]) }}" method="POST">
                     @csrf
                     @method('PATCH')
                     <div class="form-body">
