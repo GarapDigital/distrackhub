@@ -32,7 +32,7 @@
                                         <td class="text-center">{{ $repository['stars_count'] }}</td>
                                         <td class="text-center">{{ $repository['forks_count'] }}</td>
                                         <td class="text-center">
-                                            <a href="{{ $repository['html_url'] }}">Visit Url</a>
+                                            <a href="{{ $repository['html_url'] }}" target="_blank">Visit Url</a>
                                         </td>
                                         <td class="text-center">
                                             <a href="{{ route('panel.github.detail', $repository['name']) }}" class="btn btn-primary btn-sm">
