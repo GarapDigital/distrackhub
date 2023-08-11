@@ -8,7 +8,7 @@
             <div class="card-body">
                 <div class="d-flex align-items-center justify-content-between">
                     <h4 class="card-title">Edit Github Repository</h4>
-                    <a href="" class="btn btn-secondary">
+                    <a href="{{ route('panel.github.index') }}" class="btn btn-secondary">
                         <i class="fa fa-arrow-left"></i>
                         {{ __('Back') }}
                     </a>
@@ -22,14 +22,35 @@
                     </ul>
                 </div>
                 @endif
-                <form action="" method="POST">
+                <form action="{{ route('panel.github.update', $repository['name']) }}" method="POST">
                     @csrf
+                    @method('PATCH')
                     <div class="form-body">
                         <div class="row mt-3">
                             <div class="col-md-12">
-                                <label class="form-label">Heading <span class="text-danger">*</span> </label>
+                                <label class="form-label">Repository Name <span class="text-danger">*</span> </label>
                                 <div class="form-group mb-3">
-                                    <input type="text" class="form-control" placeholder="Heading" name="heading" value="" required>
+                                    <input type="text" class="form-control" placeholder="Repository Name" name="name" value="{{ old('name', $repository['name']) }}" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <label class="form-label">Repository Description <span class="text-danger">*</span> </label>
+                                <div class="form-group mb-3">
+                                    <input type="text" class="form-control" placeholder="Repository Description" name="description" value="{{ old('description', $repository['description']) }}" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <label class="form-label">Repository Visibility <span class="text-danger">*</span> </label>
+                                <div class="form-group mb-3">
+                                    <select name="private" class="form-control">
+                                        <option value="" selected hidden>Repository Visibility</option>
+                                        <option value="0" @selected(old('private', $repository['is_private']) == false)>Public</option>
+                                        <option value="1" @selected(old('private', $repository['is_private']) == true)>Private</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>

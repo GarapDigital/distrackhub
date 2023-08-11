@@ -8,7 +8,7 @@
             <div class="card-body">
                 <div class="d-flex align-items-center justify-content-between">
                     <h4 class="card-title">Create Github Repository</h4>
-                    <a href="" class="btn btn-secondary">
+                    <a href="{{ route('panel.github.index') }}" class="btn btn-secondary">
                         <i class="fa fa-arrow-left"></i>
                         {{ __('Back') }}
                     </a>
@@ -53,7 +53,6 @@
                                 </div>
                             </div>
                         </div>
-                        
                     </div>
                     <div class="form-actions">
                         <div class="text-end">

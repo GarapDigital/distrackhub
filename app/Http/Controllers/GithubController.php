@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Functions\Static\Curl;
 use App\Http\Requests\Github\CreateRepositoryRequest;
+use App\Http\Requests\Github\UpdateRepositoryRequest;
 use App\Http\Resources\Github\GetDetailRepository;
 use App\Http\Resources\Github\GetRepositoryList;
 use Illuminate\Contracts\View\View;
@@ -49,9 +50,9 @@ class GithubController extends Controller
     /**
      * store value in to github repository api.
      * 
-     * 
+     * @return RedirectResponse
      */
-    public function createGithubRepository(CreateRepositoryRequest $request)
+    public function createGithubRepository(CreateRepositoryRequest $request): RedirectResponse
     {
         $request_data = $request->validated();
         $request_data['name'] = strtolower(str_replace(' ', '-', $request_data['name']));
@@ -72,7 +73,14 @@ class GithubController extends Controller
      */
     public function githubEditPage($repo_name): View
     {
-        return view('panel.github.edit');
+        $url = 'https://api.github.com/repos/'.config('github.credential.owner_name').'/'.$repo_name;
+        $http_request = Curl::get($url);
+
+        $resource = (new GetDetailRepository())->toArray($http_request);
+
+        return view('panel.github.edit', [
+            'repository' => $resource,
+        ]);
     }
 
     /**
@@ -91,5 +99,23 @@ class GithubController extends Controller
         return view('panel.github.detail', [
             'repository' => $resource,
         ]);
+    }
+
+    /**
+     * update records in github api.
+     * 
+     * @param $repo_name
+     * 
+     */
+    public function updateGithubRepository(UpdateRepositoryRequest $request, $repo_name)
+    {
+        $request_data = $request->validated();
+        $request_data['name'] = strtolower(str_replace(' ', '-', $request_data['name']));
+        $request_data['private'] = $request_data['private'] == 0 ? false : true;
+
+        $url = 'https://api.github.com/repos/'.config('github.credential.owner_name').'/'.$repo_name;
+        $http_patch = Curl::patch($url, $request_data);
+
+        return redirect()->route('panel.github.index')->with(['data' => $http_patch]);
     }
 }

@@ -13,7 +13,7 @@ class UpdateRepositoryRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,9 @@ class UpdateRepositoryRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => ['required', 'string', 'max:60'],
+            'description' => ['required', 'string', 'max:100'],
+            'private' => ['required']
         ];
     }
 }
