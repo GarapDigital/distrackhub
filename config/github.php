@@ -9,8 +9,17 @@ return [
     |--------------------------------------------------------------------------
     */
     'order_by' => [
-        'index' => 'id',
-        'sort' => 'DESC',
+        'index' => 'created', // ['created', 'updated']
+        'sort' => 'desc', // ['desc', 'asc']
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Default Per Page Pagination
+    |--------------------------------------------------------------------------
+    */
+    'pagination' => [
+        'per_page' => 10,
     ],
 
     /*
@@ -20,7 +29,8 @@ return [
     |
     */
     'credential' => [
-        'personal_token' => env('GITHUB_PERSONAL_TOKEN', 'yourcredentials'),
+        'owner_name' => env('GITHUB_OWNER_NAME', 'yournamehere'),
+        'personal_token' => env('GITHUB_PERSONAL_TOKEN', 'yourtokenhere'),
     ],
 
 ];
