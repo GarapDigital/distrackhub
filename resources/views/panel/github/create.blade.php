@@ -22,17 +22,38 @@
                     </ul>
                 </div>
                 @endif
-                <form action="" method="POST">
+                <form action="{{ route('panel.github.store') }}" method="POST">
                     @csrf
                     <div class="form-body">
                         <div class="row mt-3">
                             <div class="col-md-12">
-                                <label class="form-label">Heading <span class="text-danger">*</span> </label>
+                                <label class="form-label">Repository Name <span class="text-danger">*</span> </label>
                                 <div class="form-group mb-3">
-                                    <input type="text" class="form-control" placeholder="Heading" name="heading" value="" required>
+                                    <input type="text" class="form-control" placeholder="Repository Name" name="name" value="{{ old('name') }}" required>
                                 </div>
                             </div>
                         </div>
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <label class="form-label">Repository Description <span class="text-danger">*</span> </label>
+                                <div class="form-group mb-3">
+                                    <input type="text" class="form-control" placeholder="Repository Description" name="description" value="{{ old('description') }}" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <label class="form-label">Repository Visibility <span class="text-danger">*</span> </label>
+                                <div class="form-group mb-3">
+                                    <select name="private" class="form-control">
+                                        <option value="" selected hidden>Repository Visibility</option>
+                                        <option value="0" @selected(old('private') == "0")>Public</option>
+                                        <option value="1" @selected(old('private') == "1")>Private</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
                     </div>
                     <div class="form-actions">
                         <div class="text-end">

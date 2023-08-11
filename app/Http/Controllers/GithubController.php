@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Functions\Static\Curl;
+use App\Http\Requests\Github\CreateRepositoryRequest;
 use App\Http\Resources\Github\GetDetailRepository;
 use App\Http\Resources\Github\GetRepositoryList;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class GithubController extends Controller
@@ -45,6 +47,24 @@ class GithubController extends Controller
     }
 
     /**
+     * store value in to github repository api.
+     * 
+     * 
+     */
+    public function createGithubRepository(CreateRepositoryRequest $request)
+    {
+        $request_data = $request->validated();
+        $request_data['name'] = strtolower(str_replace(' ', '-', $request_data['name']));
+        $request_data['private'] = $request_data['private'] == 0 ? false : true;
+        $request_data['homepage'] = 'https://github.com';
+
+        $http_post = Curl::post('https://api.github.com/user/repos', $request_data);
+
+        return redirect()->route('panel.github.index')->with(['data' => $http_post]);
+
+    }
+
+    /**
      * display github repository edit view.
      * 
      * @param $repo_name
@@ -61,18 +81,10 @@ class GithubController extends Controller
      * @param $repo_name
      * @return View
      */
-    public function githubDetailPage(Request $request, $repo_name): View
+    public function githubDetailPage($repo_name): View
     {
-        $http_request = [];
         $url = 'https://api.github.com/repos/'.config('github.credential.owner_name').'/'.$repo_name;
-        if ($request->page) {
-            $http_request = Curl::get($url, [
-                'page' => $request->page,
-            ]);
-
-        } else {
-            $http_request = Curl::get($url);
-        }
+        $http_request = Curl::get($url);
 
         $resource = (new GetDetailRepository())->toArray($http_request);
 
