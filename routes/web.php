@@ -46,5 +46,6 @@ Route::group(['prefix' => 'panel', 'as' => 'panel.', 'middleware' => ['auth']], 
         Route::get('/{repo_name}/detail', [GithubController::class, 'githubDetailPage'])->name('detail');
         Route::get('/{repo_name}/edit', [GithubController::class, 'githubEditPage'])->name('edit');
         Route::patch('/{repo_name}/update', [GithubController::class, 'updateGithubRepository'])->name('update');
+        Route::delete('/{repo_name}/delete', [GithubController::class, 'deleteGithubRepository'])->name('delete');
     });
 });

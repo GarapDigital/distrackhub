@@ -22,6 +22,7 @@ class Curl
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $output = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
         return json_decode($output);
@@ -45,6 +46,7 @@ class Curl
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
         $output = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
         return json_decode($output);
@@ -69,6 +71,26 @@ class Curl
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PATCH');
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
         $output = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        return json_decode($output);
+    }
+
+    public static function delete(string $url)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Authorization: Bearer '.config('github.credential.personal_token'),
+            'Accept: application/vnd.github+json',
+            'Content-Type: application/json',
+            'User-Agent: ' . request()->userAgent(),
+        ]);
+
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
+        $output = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
         return json_decode($output);

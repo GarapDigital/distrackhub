@@ -105,9 +105,9 @@ class GithubController extends Controller
      * update records in github api.
      * 
      * @param $repo_name
-     * 
+     * @return RedirectResponse
      */
-    public function updateGithubRepository(UpdateRepositoryRequest $request, $repo_name)
+    public function updateGithubRepository(UpdateRepositoryRequest $request, $repo_name): RedirectResponse
     {
         $request_data = $request->validated();
         $request_data['name'] = strtolower(str_replace(' ', '-', $request_data['name']));
@@ -117,5 +117,19 @@ class GithubController extends Controller
         $http_patch = Curl::patch($url, $request_data);
 
         return redirect()->route('panel.github.index')->with(['data' => $http_patch]);
+    }
+
+    /**
+     * delete specified records in github api.
+     * 
+     * @param $repo_name
+     * @return RedirectResponse
+     */
+    public function deleteGithubRepository($repo_name)
+    {
+        $url = 'https://api.github.com/repos/'.config('github.credential.owner_name').'/'.$repo_name;
+        $http_delete = Curl::delete($url);
+
+        return redirect()->back()->with(['data' => $http_delete]);
     }
 }

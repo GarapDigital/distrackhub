@@ -35,15 +35,21 @@
                                             <a href="{{ $repository['html_url'] }}" target="_blank">Visit Url</a>
                                         </td>
                                         <td class="text-center">
-                                            <a href="{{ route('panel.github.detail', $repository['name']) }}" class="btn btn-primary btn-sm">
-                                                <i class="fa fa-eye"></i>
-                                            </a>
-                                            <a href="{{ route('panel.github.edit', $repository['name']) }}" class="btn btn-success btn-sm">
-                                                <i class="fa fa-edit"></i>
-                                            </a>
-                                            <a href="" class="btn btn-danger btn-sm">
-                                                <i class="fa fa-trash"></i>
-                                            </a>
+                                            <div class="d-flex align-items-center justify-content-center gap-2">
+                                                <a href="{{ route('panel.github.detail', $repository['name']) }}" class="btn btn-primary btn-sm">
+                                                    <i class="fa fa-eye"></i>
+                                                </a>
+                                                <a href="{{ route('panel.github.edit', $repository['name']) }}" class="btn btn-success btn-sm">
+                                                    <i class="fa fa-edit"></i>
+                                                </a>
+                                                <form action="{{ route('panel.github.delete', $repository['name']) }}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger btn-sm">
+                                                        <i class="fa fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
                                         </td>
                                     </tr>
                                 @empty
