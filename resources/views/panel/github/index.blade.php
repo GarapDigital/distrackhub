@@ -36,13 +36,16 @@
                                         </td>
                                         <td class="text-center">
                                             <div class="d-flex align-items-center justify-content-center gap-2">
-                                                <a href="{{ route('panel.github.detail', $repository['name']) }}" class="btn btn-primary btn-sm">
+                                                <a href="{{ route('panel.github.commits', ['author_name' => Github::getRepositoryAuthor($repository['full_name']), 'repo_name' => $repository['name']]) }}" class="btn btn-secondary btn-sm">
+                                                    <i class="fa fa-code-branch"></i>
+                                                </a>
+                                                <a href="{{ route('panel.github.detail', ['author_name' => Github::getRepositoryAuthor($repository['full_name']), 'repo_name' => $repository['name']]) }}" class="btn btn-primary btn-sm">
                                                     <i class="fa fa-eye"></i>
                                                 </a>
-                                                <a href="{{ route('panel.github.edit', $repository['name']) }}" class="btn btn-success btn-sm">
+                                                <a href="{{ route('panel.github.edit', ['author_name' => Github::getRepositoryAuthor($repository['full_name']), 'repo_name' => $repository['name']]) }}" class="btn btn-success btn-sm">
                                                     <i class="fa fa-edit"></i>
                                                 </a>
-                                                <form action="{{ route('panel.github.delete', $repository['name']) }}" method="POST">
+                                                <form action="{{ route('panel.github.delete', ['author_name' => Github::getRepositoryAuthor($repository['full_name']), 'repo_name' => $repository['name']]) }}" method="POST">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger btn-sm">

@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Functions\Helpers;
 use App\Functions\Static\Curl;
 use App\Http\Requests\Github\CreateRepositoryRequest;
 use App\Http\Requests\Github\UpdateRepositoryRequest;
 use App\Http\Resources\Github\GetDetailRepository;
+use App\Http\Resources\Github\GetRepositoryCommitList;
 use App\Http\Resources\Github\GetRepositoryList;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -29,7 +31,7 @@ class GithubController extends Controller
         } else {
             $http_request = Curl::get('https://api.github.com/user/repos');
         }
-
+        // dd($http_request);
         $resources = (new GetRepositoryList())->toArray($http_request);
 
         return view('panel.github.index', [
@@ -71,9 +73,9 @@ class GithubController extends Controller
      * @param $repo_name
      * @return View
      */
-    public function githubEditPage($repo_name): View
+    public function githubEditPage($author_name, $repo_name): View
     {
-        $url = 'https://api.github.com/repos/'.config('github.credential.owner_name').'/'.$repo_name;
+        $url = 'https://api.github.com/repos/'.$author_name.'/'.$repo_name;
         $http_request = Curl::get($url);
 
         $resource = (new GetDetailRepository())->toArray($http_request);
@@ -89,9 +91,9 @@ class GithubController extends Controller
      * @param $repo_name
      * @return View
      */
-    public function githubDetailPage($repo_name): View
+    public function githubDetailPage($author_name, $repo_name): View
     {
-        $url = 'https://api.github.com/repos/'.config('github.credential.owner_name').'/'.$repo_name;
+        $url = 'https://api.github.com/repos/'.$author_name.'/'.$repo_name;
         $http_request = Curl::get($url);
 
         $resource = (new GetDetailRepository())->toArray($http_request);
@@ -107,13 +109,13 @@ class GithubController extends Controller
      * @param $repo_name
      * @return RedirectResponse
      */
-    public function updateGithubRepository(UpdateRepositoryRequest $request, $repo_name): RedirectResponse
+    public function updateGithubRepository(UpdateRepositoryRequest $request, $author_name, $repo_name): RedirectResponse
     {
         $request_data = $request->validated();
         $request_data['name'] = strtolower(str_replace(' ', '-', $request_data['name']));
         $request_data['private'] = $request_data['private'] == 0 ? false : true;
 
-        $url = 'https://api.github.com/repos/'.config('github.credential.owner_name').'/'.$repo_name;
+        $url = 'https://api.github.com/repos/'.$author_name.'/'.$repo_name;
         $http_patch = Curl::patch($url, $request_data);
 
         return redirect()->route('panel.github.index')->with(['data' => $http_patch]);
@@ -125,11 +127,33 @@ class GithubController extends Controller
      * @param $repo_name
      * @return RedirectResponse
      */
-    public function deleteGithubRepository($repo_name)
+    public function deleteGithubRepository($author_name, $repo_name)
     {
-        $url = 'https://api.github.com/repos/'.config('github.credential.owner_name').'/'.$repo_name;
+        $url = 'https://api.github.com/repos/'.$author_name.'/'.$repo_name;
         $http_delete = Curl::delete($url);
 
         return redirect()->back()->with(['data' => $http_delete]);
+    }
+
+    public function showRepositoryCommitLists(Request $request, $author_name, $repo_name)
+    {
+        $url = 'https://api.github.com/repos/'.$author_name.'/'.$repo_name.'/commits';
+        $http_request = [];
+
+        $http_request = [];
+        if ($request->page) {
+            $http_request = Curl::get($url, [
+                'page' => $request->page,
+            ]);
+
+        } else {
+            $http_request = Curl::get($url);
+        }
+
+        $resources = (new GetRepositoryCommitList())->toArray($http_request);
+        // dd($resources);
+        return view('panel.github.commit-list', [
+            'commits' => $resources,
+        ]);
     }
 }
