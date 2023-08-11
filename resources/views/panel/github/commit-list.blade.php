@@ -27,7 +27,7 @@
                                 @forelse($commits as $commit)
                                     <tr>
                                         <td class="text-center">{{ $loop->iteration }}</td>
-                                        <td class="text-center">{{ substr_replace($commit['sha'], '...', 10) }}</td>
+                                        <td class="text-center">{{ substr($commit['sha'], 0, 7) }}</td>
                                         <td class="text-center">{{ $commit['committer']['name'] }}</td>
                                         <td>{{ substr_replace($commit['message'], '...', 30) }}</td>
                                         <td class="text-center">
