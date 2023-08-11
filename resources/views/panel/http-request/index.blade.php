@@ -14,37 +14,47 @@
                     </div> --}}
                 </div>
                 <div class="table-responsive">
-                    <table id="zero_config" class="table border table-striped table-bordered text-nowrap">
+                    <table class="table border table-striped table-bordered text-nowrap">
                         <thead>
                             <tr>
                                 <th class="text-center align-middle">No</th>
                                 <th class="text-center align-middle">Session ID</th>
-                                <th class="text-center align-middle">User ID</th>
                                 <th class="text-center align-middle">IP Address</th>
                                 <th class="text-center align-middle">Ajax</th>
                                 <th class="text-center align-middle">URL</th>
-                                <th class="text-center align-middle">Payload</th>
                                 <th class="text-center align-middle">Status Code</th>
                             </tr>
                         </thead>
                         <tbody>
+                            @forelse($http_requests['data'] as $http_request)
+                            <tr>
+                                <td class="text-center">{{ $loop->iteration }}</td>
+                                <td class="text-center">{{ $http_request['session_id'] }}</td>
+                                <td class="text-center">{{ $http_request['ip'] }}</td>
+                                <td class="text-center">{{ $http_request['ajax'] }}</td>
+                                <td class="text-center">{{ $http_request['url'] }}</td>
+                                <td class="text-center">{{ $http_request['status_code'] }}</td>
+                            </tr>
+                            @empty
                             <tr>
                                 <td class="text-center" colspan="8">{{ __('Empty') }}</td>
                             </tr>
+                            @endforelse
                         </tbody>
                         <tfoot>
                             <tr>
                                 <th class="text-center align-middle">No</th>
                                 <th class="text-center align-middle">Session ID</th>
-                                <th class="text-center align-middle">User ID</th>
                                 <th class="text-center align-middle">IP Address</th>
                                 <th class="text-center align-middle">Ajax</th>
                                 <th class="text-center align-middle">URL</th>
-                                <th class="text-center align-middle">Payload</th>
                                 <th class="text-center align-middle">Status Code</th>
                             </tr>
                         </tfoot>
                     </table>
+                    @if (count($http_requests) > 0)
+                        <x-pagination :data="$http_requests" />
+                    @endif
                 </div>
             </div>
         </div>

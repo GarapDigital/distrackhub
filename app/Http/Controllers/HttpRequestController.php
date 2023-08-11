@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\HttpRequest;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
@@ -14,6 +15,9 @@ class HttpRequestController extends Controller
      */
     public function HttpRequestPage(): View
     {
-        return view('panel.http-request.index');
+        $http_requests = HttpRequest::latest()->paginate(10)->toArray();
+        // dd($http_requests);
+
+        return view('panel.http-request.index', compact('http_requests'));
     }
 }
