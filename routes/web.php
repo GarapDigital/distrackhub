@@ -41,5 +41,8 @@ Route::group(['prefix' => 'panel', 'as' => 'panel.', 'middleware' => ['auth']], 
 
     Route::group(['prefix' => 'github', 'as' => 'github.'], function () {
         Route::get('/', [GithubController::class, 'githubIndexPage'])->name('index');
+        Route::get('/create', [GithubController::class, 'githubCreatePage'])->name('create');
+        Route::get('/{repo_name}/detail', [GithubController::class, 'githubDetailPage'])->name('detail');
+        Route::get('/{repo_name}/edit', [GithubController::class, 'githubEditPage'])->name('edit');
     });
 });

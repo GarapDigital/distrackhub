@@ -21,7 +21,7 @@
 
                 <li class="list-divider"></li>
 
-                <li class="nav-small-cap"><span class="hide-menu">Connect Github</span></li>
+                <li class="nav-small-cap"><span class="hide-menu">Connect Github API</span></li>
 
                 <li class="sidebar-item {{ request()->routeIs('panel.github.*') ? 'selected' : '' }}"> <a class="sidebar-link" href="{{ route('panel.github.index') }}"
                     aria-expanded="false"><i class="fab fa-github"></i><span
