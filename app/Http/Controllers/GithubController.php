@@ -41,7 +41,7 @@ class GithubController extends Controller
 
     /**
      * display github repository create view.
-     * 
+     *
      * @return View
      */
     public function githubCreatePage(): View
@@ -51,7 +51,7 @@ class GithubController extends Controller
 
     /**
      * store value in to github repository api.
-     * 
+     *
      * @return RedirectResponse
      */
     public function createGithubRepository(CreateRepositoryRequest $request): RedirectResponse
@@ -63,13 +63,21 @@ class GithubController extends Controller
 
         $http_post = Curl::post('https://api.github.com/user/repos', $request_data);
 
-        return redirect()->route('panel.github.index')->with(['data' => $http_post]);
+        if (!in_array($http_post['http_code'], [200, 201, 204])) {
+            $status = 'fail';
+            $message = $http_post['result']->message;
+        } else {
+            $status = 'success';
+            $message = 'Successfully Create Repository';
+        }
+
+        return redirect()->route('panel.github.index')->with($status, $message);
 
     }
 
     /**
      * display github repository edit view.
-     * 
+     *
      * @param $repo_name
      * @return View
      */
@@ -87,7 +95,7 @@ class GithubController extends Controller
 
     /**
      * display github repository detail view.
-     * 
+     *
      * @param $repo_name
      * @return View
      */
@@ -105,7 +113,7 @@ class GithubController extends Controller
 
     /**
      * update records in github api.
-     * 
+     *
      * @param $repo_name
      * @return RedirectResponse
      */
@@ -118,12 +126,20 @@ class GithubController extends Controller
         $url = 'https://api.github.com/repos/'.$author_name.'/'.$repo_name;
         $http_patch = Curl::patch($url, $request_data);
 
-        return redirect()->route('panel.github.index')->with(['data' => $http_patch]);
+        if (!in_array($http_patch['http_code'], [200, 201, 204])) {
+            $status = 'fail';
+            $message = 'Something Went Wrong';
+        } else {
+            $status = 'success';
+            $message = 'Successfully Updated Repository';
+        }
+
+        return redirect()->route('panel.github.index')->with($status, $message);
     }
 
     /**
      * delete specified records in github api.
-     * 
+     *
      * @param $repo_name
      * @return RedirectResponse
      */
@@ -132,7 +148,15 @@ class GithubController extends Controller
         $url = 'https://api.github.com/repos/'.$author_name.'/'.$repo_name;
         $http_delete = Curl::delete($url);
 
-        return redirect()->back()->with(['data' => $http_delete]);
+        if (!in_array($http_delete['http_code'], [200, 201, 204])) {
+            $status = 'fail';
+            $message = 'Something Went Wrong';
+        } else {
+            $status = 'success';
+            $message = 'Successfully Delete Repository';
+        }
+
+        return redirect()->back()->with($status, $message);
     }
 
     /**

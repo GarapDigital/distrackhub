@@ -62,7 +62,10 @@ class Curl
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
-        return json_decode($output);
+        return [
+            'result' => json_decode($output),
+            'http_code' => json_decode($httpCode)
+        ];
     }
 
     /**
@@ -94,7 +97,10 @@ class Curl
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
-        return json_decode($output);
+        return [
+            'result' => json_decode($output),
+            'http_code' => json_decode($httpCode)
+        ];
     }
 
     /**
@@ -118,6 +124,9 @@ class Curl
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
-        return json_decode($output);
+        return [
+            'result' => json_decode($output) ?? [],
+            'http_code' => json_decode($httpCode),
+        ];
     }
 }

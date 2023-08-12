@@ -142,6 +142,7 @@
     <script src="{{ asset('backside/dist/js/pages/calendar/cal-init.js') }}"></script>
     <script src="{{ asset('frontside/vendor/iziToast/dist/js/iziToast.min.js') }}"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    @include('utils.toast')
 </body>
 
 </html>
