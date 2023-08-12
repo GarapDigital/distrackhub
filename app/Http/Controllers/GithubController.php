@@ -127,7 +127,7 @@ class GithubController extends Controller
      * @param $repo_name
      * @return RedirectResponse
      */
-    public function deleteGithubRepository($author_name, $repo_name)
+    public function deleteGithubRepository($author_name, $repo_name): RedirectResponse
     {
         $url = 'https://api.github.com/repos/'.$author_name.'/'.$repo_name;
         $http_delete = Curl::delete($url);
@@ -135,7 +135,12 @@ class GithubController extends Controller
         return redirect()->back()->with(['data' => $http_delete]);
     }
 
-    public function showRepositoryCommitLists(Request $request, $author_name, $repo_name)
+    /**
+     * display github repository commit list view.
+     *
+     * @return View
+     */
+    public function showRepositoryCommitLists(Request $request, $author_name, $repo_name): View
     {
         $url = 'https://api.github.com/repos/'.$author_name.'/'.$repo_name.'/commits';
         $http_request = [];
