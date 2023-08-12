@@ -4,6 +4,12 @@ namespace App\Functions\Static;
 
 class Curl
 {
+    /**
+     * curl get http request.
+     *
+     * @param string $url
+     * @param array $pagination
+     */
     public static function get(string $url, array $pagination = ['page' => 1])
     {
         $ch = curl_init();
@@ -28,6 +34,13 @@ class Curl
         return json_decode($output);
     }
 
+    /**
+     * curl post http request.
+     *
+     * @param string $url
+     * @param array $data = []
+     * @param array $query_params = []
+     */
     public static function post(string $url, array $data = [], array $query_params = [])
     {
         $ch = curl_init();
@@ -52,6 +65,13 @@ class Curl
         return json_decode($output);
     }
 
+    /**
+     * curl patch http request.
+     *
+     * @param string $url
+     * @param array $data = []
+     * @param array $query_params = []
+     */
     public static function patch(string $url, array $data = [], array $query_params = [])
     {
         $ch = curl_init();
@@ -77,6 +97,11 @@ class Curl
         return json_decode($output);
     }
 
+    /**
+     * curl delete http request.
+     *
+     * @param string $url
+     */
     public static function delete(string $url)
     {
         $ch = curl_init();

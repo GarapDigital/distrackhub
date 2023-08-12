@@ -6,7 +6,12 @@ use App\Functions\Helpers;
 
 class Github
 {
-    public static function getRepositoryAuthor($full_name)
+    /**
+     * make static for getRepositoryAuthor func.
+     *
+     * @param string $full_name
+     */
+    public static function getRepositoryAuthor(string $full_name)
     {
         return (new Helpers())->getRepositoryAuthor($full_name);
     }
